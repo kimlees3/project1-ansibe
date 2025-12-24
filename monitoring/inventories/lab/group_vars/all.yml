@@ -1,0 +1,7 @@
+prometheus_version: "3.5.0"
+prometheus_listen: "0.0.0.0:9090"
+
+service_scrape_definitions:
+  - job_name: "node_exporter"
+    port: 9100
+    groups: ["all"]

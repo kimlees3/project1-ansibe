@@ -1,0 +1,4 @@
+- name: Install node_exporter on all servers
+  hosts: all
+  roles:
+    - node_exporter

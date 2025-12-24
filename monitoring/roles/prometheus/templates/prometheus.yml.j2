@@ -1,0 +1,15 @@
+
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+{% for s in service_scrape_definitions %}
+  - job_name: "{{ s.job_name }}"
+    static_configs:
+      - targets:
+{% for g in s.groups %}
+{% for h in groups[g] | default([]) %}
+        - "{{ hostvars[h].ansible_host }}:{{ s.port }}"
+{% endfor %}
+{% endfor %}
+{% endfor %}
