@@ -15,3 +15,9 @@
   become: true
   roles:
     - grafana
+
+- name: Install Loki on monitoring server
+  hosts: monitoring
+  become: true
+  roles:
+    - loki

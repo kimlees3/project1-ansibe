@@ -47,6 +47,15 @@
   notify: restart grafana
   tags: grafana
 
+- name: Provision Loki datasource
+  template:
+    src: provisioning/datasources/loki.yml.j2
+    dest: /etc/grafana/provisioning/datasources/loki.yml
+    mode: "0644"
+  notify: restart grafana
+  tags: grafana
+
+
 - name: Provision dashboard provider (optional)
   template:
     src: provisioning/dashboards/provider.yml.j2
