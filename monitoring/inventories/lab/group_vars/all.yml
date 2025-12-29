@@ -5,3 +5,6 @@ service_scrape_definitions:
   - job_name: "node_exporter"
     port: 9100
     groups: ["all"]
+
+grafana_enable_dashboard_provisioning: true
+grafana_dashboards_path: /var/lib/grafana/dashboards
