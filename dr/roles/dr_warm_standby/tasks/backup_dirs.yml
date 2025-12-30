@@ -1,0 +1,13 @@
+---
+- name: Create backup root
+  ansible.builtin.file:
+    path: "{{ dr_backup_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Create backup sub directories
+  ansible.builtin.file:
+    path: "{{ dr_backup_root }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ dr_backup_dirs }}"

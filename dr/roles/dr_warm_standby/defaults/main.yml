@@ -1,0 +1,30 @@
+---
+# DR Web
+dr_nginx_enabled: true
+dr_web_root: /usr/share/nginx/html
+dr_web_title: "DR WEB SERVER"
+dr_web_note: "Warm Standby - DR 전환 확인용"
+
+# DR WAS (FastAPI)
+dr_fastapi_enabled: true
+dr_fastapi_host: "0.0.0.0"
+dr_fastapi_port: 8000
+dr_fastapi_app_dir: /opt/dr_api
+dr_fastapi_user: drapi
+
+# DR DB (PostgreSQL)
+dr_postgres_enabled: true
+dr_postgres_packages:
+  - postgresql-server
+  - postgresql
+
+# Backup directories
+dr_backup_enabled: true
+dr_backup_root: /backup
+dr_backup_dirs:
+  - postgres/daily
+  - media/video-storage
+  - configs/nginx
+  - configs/app
+  - logs
+  - scripts

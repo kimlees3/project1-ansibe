@@ -1,0 +1,16 @@
+---
+- name: Create backup directory structure
+  ansible.builtin.include_tasks: backup_dirs.yml
+  when: dr_backup_enabled
+
+- name: Install and configure Nginx (DR Web)
+  ansible.builtin.include_tasks: nginx.yml
+  when: dr_nginx_enabled
+
+- name: Install and configure FastAPI (DR WAS)
+  ansible.builtin.include_tasks: fastapi.yml
+  when: dr_fastapi_enabled
+
+- name: Install PostgreSQL (DR DB)
+  ansible.builtin.include_tasks: postgres.yml
+  when: dr_postgres_enabled
