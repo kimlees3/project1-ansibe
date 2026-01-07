@@ -1,0 +1,39 @@
+---
+- name: Ensure archive_mode in postgresql.conf
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ pg_conf_path }}"
+    regexp: "^#?archive_mode\\s*=.*"
+    line: "archive_mode = {{ pg_archive_mode }}"
+    backup: true
+  notify: Restart PostgreSQL
+
+- name: Ensure archive_command in postgresql.conf
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ pg_conf_path }}"
+    regexp: "^#?archive_command\\s*=.*"
+    line: "archive_command = '{{ pgbackrest_archive_command }}'"
+    backup: true
+  notify: Restart PostgreSQL
+
+- name: Ensure archive_timeout in postgresql.conf
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ pg_conf_path }}"
+    regexp: "^#?archive_timeout\\s*=.*"
+    line: "archive_timeout = '{{ pg_archive_timeout }}'"
+    backup: true
+  notify: Restart PostgreSQL
+
+- name: Validate postgresql.conf (optional)
+  become: true
+  become_user: "{{ postgres_user }}"
+  ansible.builtin.command: "postgres -D {{ pg_data_dir }} -C archive_command"
+  register: pg_check
+  changed_when: false
+  failed_when: false
+
+- name: Show current archive_command
+  ansible.builtin.debug:
+    msg: "{{ pg_check.stdout | default('N/A') }}"

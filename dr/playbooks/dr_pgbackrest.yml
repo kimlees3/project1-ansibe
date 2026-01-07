@@ -1,0 +1,6 @@
+---
+- name: Build DR pgBackRest repo and run full backup
+  hosts: dr_db
+  become: true
+  roles:
+    - dr_pgbackrest

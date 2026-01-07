@@ -1,0 +1,46 @@
+---
+- name: Disable PostgreSQL module
+  become: true
+  ansible.builtin.command: dnf module disable postgresql -y
+  changed_when: true
+
+- name: Install PGDG repo rpm
+  become: true
+  ansible.builtin.dnf:
+    name: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+    state: present
+    disable_gpg_check: true
+
+- name: Install pgBackRest
+  become: true
+  ansible.builtin.dnf:
+    name: pgbackrest
+    state: present
+
+- name: Create pgBackRest config dir
+  become: true
+  ansible.builtin.file:
+    path: "{{ pgbackrest_conf_dir }}"
+    state: directory
+    owner: "{{ postgres_user }}"
+    group: "{{ postgres_user }}"
+    mode: "0750"
+
+- name: (Optional) Create repo dir on Primary
+  become: true
+  when: pgbackrest_repo_on_primary | bool
+  ansible.builtin.file:
+    path: "{{ pgbackrest_repo_dir_primary }}"
+    state: directory
+    owner: "{{ postgres_user }}"
+    group: "{{ postgres_user }}"
+    mode: "0750"
+
+- name: Deploy pgbackrest.conf (Primary)
+  become: true
+  ansible.builtin.template:
+    src: pgbackrest.conf.j2
+    dest: "{{ pgbackrest_conf }}"
+    owner: "{{ postgres_user }}"
+    group: "{{ postgres_user }}"
+    mode: "0640"

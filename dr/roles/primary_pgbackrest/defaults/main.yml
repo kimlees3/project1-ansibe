@@ -1,0 +1,21 @@
+pg_version: "15"
+stanza_name: "pgcluster"
+
+postgres_user: "postgres"
+
+pg_data_dir: "/var/lib/pgsql/{{ pg_version }}/data"
+pg_conf_path: "/var/lib/pgsql/{{ pg_version }}/data/postgresql.conf"
+
+pgbackrest_conf_dir: "/etc/pgbackrest"
+pgbackrest_conf: "/etc/pgbackrest/pgbackrest.conf"
+
+pgbackrest_repo_on_primary: false
+pgbackrest_repo_dir_primary: "/var/lib/pgbackrest"
+
+pg_archive_mode: "on"
+pg_archive_timeout: "60s"
+pgbackrest_archive_command: "pgbackrest --stanza={{ stanza_name }} archive-push %p"
+
+primary_push_to_dr_repo: false
+dr_repo_host: ""
+dr_repo_path: "/var/lib/pgbackrest"

@@ -1,5 +1,0 @@
----
-# 필요하면 여기서 오버라이드
-dr_web_title: "DR WEB SERVER"
-dr_web_note: "Warm Standby - DR 전환 확인용"
-dr_fastapi_port: 8000
