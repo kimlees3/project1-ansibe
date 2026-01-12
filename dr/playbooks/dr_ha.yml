@@ -1,0 +1,6 @@
+---
+- name: Build DR-HA Patroni Replica (Remote DC)
+  hosts: dr_ha
+  become: true
+  roles:
+    - dr_ha

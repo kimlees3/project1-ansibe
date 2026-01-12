@@ -1,2 +1,5 @@
 ---
-# handlers file for dr_ha
+- name: Restart patroni
+  ansible.builtin.systemd:
+    name: patroni
+    state: restarted

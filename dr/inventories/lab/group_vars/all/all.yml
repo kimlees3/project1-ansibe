@@ -37,3 +37,35 @@ pg_service_name: "postgresql-{{ pg_version }}"
 
 ansible_user: root
 ansible_ssh_pass: "{{ vault_root_ssh_pass }}"
+
+# =========================
+# DR-HA (Patroni Replica) 설정
+# =========================
+patroni_scope: "pgsql-cluster"
+patroni_namespace: "/patroni/"
+
+# DR-HA는 관리망(ansible_host) + DB망(patroni_bind_ip) 2 NIC 사용
+patroni_bind_ip: "10.1.5.80"          # DR-HA DBNET IP
+patroni_restapi_port: 8008
+patroni_postgres_port: 5432
+
+# etcd는 조원 DB 클러스터(10.1.5.10/20/30)의 etcd3를 사용 (v2(/v2) 쓰면 404)
+patroni_etcd3_hosts:
+  - "10.1.5.10:2379"
+  - "10.1.5.20:2379"
+  - "10.1.5.30:2379"
+
+# Replication 계정 (조원 Patroni/DB에 존재하는 값과 반드시 동일해야 함)
+patroni_replication_username: "replicator"
+patroni_replication_password: "replicator"
+
+# DR-HA 로컬 postgres 슈퍼유저(로컬 접속용)
+patroni_superuser_username: "postgres"
+patroni_superuser_password: "postgres"
+
+# DR-HA를 '자동 승격 금지'로 두고, 최후에 수동 승격(patronictl promote) 하는 용도
+patroni_tags:
+  nofailover: true
+  noloadbalance: true
+  clonefrom: false
+  nosync: true
