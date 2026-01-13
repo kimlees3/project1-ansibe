@@ -1,0 +1,21 @@
+---
+# tasks file for pg_ssh_authorized_keys
+- name: Ensure postgres .ssh directory exists on repo server
+  become: true
+  become_user: postgres
+  file:
+    path: /var/lib/pgsql/.ssh
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: "0700"
+
+- name: Register postgres authorized_keys from DB nodes
+  become: true
+  become_user: postgres
+  authorized_key:
+    user: postgres
+    key: "{{ hostvars[item].pg_postgres_pubkey }}"
+    state: present
+  loop: "{{ groups['pgsql_db'] }}"
+  when: hostvars[item].pg_postgres_pubkey is defined

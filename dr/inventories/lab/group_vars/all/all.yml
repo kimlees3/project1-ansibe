@@ -8,8 +8,12 @@ dr_fastapi_port: 8000
 pg_version: "15"
 stanza_name: "pgcluster"
 
-primary_ip: "172.16.6.57"
-dr_ip: "172.16.6.58"
+# pgBackRest 관점에서 "백업 대상 DB"
+pgbackrest_primary_host: "10.1.5.10"   # 일단 고정 (나중에 leader 자동탐지 가능)
+
+# pgBackRest repo 서버 내부 IP (DB들이 SSH 붙을 주소)
+pgbackrest_repo_internal_ip: "10.1.5.81"
+
 
 postgres_user: "postgres"
 
@@ -21,19 +25,10 @@ pgbackrest_repo_dir: "/var/lib/pgbackrest"
 
 pgdg_repo_rpm: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
 
-# DR이 primary에 키 심어줄 대상 호스트(인벤토리 호스트명)
-primary_inventory_host: "db01"
 
-# Primary PostgreSQL 설정 파일 경로 (Primary role에서 사용)
-pg_conf_path: "/var/lib/pgsql/{{ pg_version }}/data/postgresql.conf"
 
-# archive 설정 (Primary role에서 사용)
-pg_archive_mode: "on"
-pg_archive_timeout: "60s"
-pgbackrest_archive_command: "pgbackrest --stanza={{ stanza_name }} archive-push %p"
 
-# Primary에서 postgresql 서비스명 (환경에 따라 다를 수 있음)
-pg_service_name: "postgresql-{{ pg_version }}"
+
 
 ansible_user: root
 ansible_ssh_pass: "{{ vault_root_ssh_pass }}"

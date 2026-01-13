@@ -1,4 +1,6 @@
 ---
+# defaults file for dr_ha
+---
 # DR-HA(Patroni Replica) 기본값
 
 # Patroni cluster 식별자 (조원 클러스터와 반드시 동일해야 함)

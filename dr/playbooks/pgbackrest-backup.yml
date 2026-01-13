@@ -1,0 +1,9 @@
+- name: Deploy pgBackRest client on DB nodes
+  hosts: pgsql_db
+  roles:
+    - pgbackrest_client
+
+- name: Deploy pgBackRest repo and run backup
+  hosts: pgbackrest_repo
+  roles:
+    - pgbackrest_repo

@@ -1,0 +1,26 @@
+---
+# tasks file for pgbackrest_install
+- name: Enable CRB repository
+  command: dnf config-manager --set-enabled crb
+  args:
+    warn: false
+
+- name: Install EPEL repository
+  dnf:
+    name: epel-release
+    state: present
+
+- name: Clean dnf cache
+  command: dnf clean all
+
+- name: Install libssh2 dependencies
+  dnf:
+    name:
+      - libssh2
+      - libssh2-devel
+    state: present
+
+- name: Install pgBackRest
+  dnf:
+    name: pgbackrest
+    state: present

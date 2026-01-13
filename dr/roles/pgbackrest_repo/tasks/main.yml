@@ -1,0 +1,35 @@
+---
+# tasks file for pgbackrest_repo
+- name: Ensure repo directory exists
+  file:
+    path: /var/lib/pgbackrest
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: "0750"
+
+- name: Ensure pgBackRest config dir exists
+  file:
+    path: /etc/pgbackrest
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: "0750"
+
+- name: Deploy pgBackRest repo config
+  template:
+    src: pgbackrest.conf.j2
+    dest: /etc/pgbackrest/pgbackrest.conf
+    owner: postgres
+    group: postgres
+    mode: "0640"
+
+- name: Create stanza
+  become_user: postgres
+  command: pgbackrest --stanza=pgcluster stanza-create
+  args:
+    creates: /var/lib/pgbackrest/pgcluster
+
+- name: Run full backup
+  become_user: postgres
+  command: pgbackrest --stanza=pgcluster backup --type=full

@@ -1,6 +1,0 @@
----
-- name: Configure pgBackRest on Primary DB
-  hosts: primary_db
-  become: true
-  roles:
-    - primary_pgbackrest

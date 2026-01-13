@@ -1,0 +1,9 @@
+[global]
+repo1-host={{ pgbackrest_repo_internal_ip }}
+repo1-host-user=postgres
+repo1-path=/var/lib/pgbackrest
+process-max=4
+start-fast=y
+
+[pgcluster]
+pg1-path=/var/lib/pgsql/15/data
