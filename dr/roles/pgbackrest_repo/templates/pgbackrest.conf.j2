@@ -5,6 +5,8 @@ process-max=4
 start-fast=y
 
 [{{ stanza_name }}]
-pg1-path={{ pg_data_dir }}
-pg1-host={{ pgbackrest_primary_host }}
-pg1-user={{ postgres_user }}
+{% for n in pgbackrest_db_nodes %}
+pg{{ loop.index }}-host={{ n.host }}
+pg{{ loop.index }}-path={{ n.path }}
+pg{{ loop.index }}-user={{ n.user }}
+{% endfor %}

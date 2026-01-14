@@ -8,6 +8,17 @@ dr_fastapi_port: 8000
 pg_version: "15"
 stanza_name: "pgsql-cluster"
 
+pgbackrest_db_nodes:
+  - host: "10.1.5.10"
+    path: "/var/lib/pgsql/15/data"
+    user: "postgres"
+  - host: "10.1.5.20"
+    path: "/var/lib/pgsql/15/data"
+    user: "postgres"
+  - host: "10.1.5.30"
+    path: "/var/lib/pgsql/15/data"
+    user: "postgres"
+
 # pgBackRest 관점에서 "백업 대상 DB"
 pgbackrest_primary_host: "10.1.5.10"   # 일단 고정 (나중에 leader 자동탐지 가능)
 
@@ -67,3 +78,14 @@ patroni_tags:
 
 
 pg_ssh_trust_direction: "both"
+
+# === pgBackRest SSH known_hosts 자동화용 ===
+
+# DB 노드들 (Repo → DB SSH trust)
+pgbackrest_db_hosts:
+  - "10.1.5.10"
+  - "10.1.5.20"
+  - "10.1.5.30"
+
+# Repo 서버 IP (DB → Repo SSH trust)
+pgbackrest_repo_ip: "10.1.5.81"

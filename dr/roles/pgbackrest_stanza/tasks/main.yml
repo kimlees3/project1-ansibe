@@ -1,9 +1,13 @@
-- name: Create pgBackRest stanza (idempotent)
+- name: Check if stanza exists
   become: true
-  shell: |
-    sudo -iu postgres pgbackrest --stanza={{ stanza_name }} stanza-create
-  args:
-    executable: /bin/bash
-  register: stanza_out
+  become_user: postgres
+  command: pgbackrest info --stanza={{ stanza_name }}
+  register: stanza_info
   failed_when: false
-  changed_when: "'already exists' not in stanza_out.stderr"
+  changed_when: false
+
+- name: Create pgBackRest stanza
+  become: true
+  become_user: postgres
+  command: pgbackrest --stanza={{ stanza_name }} stanza-create
+  when: stanza_info.rc != 0

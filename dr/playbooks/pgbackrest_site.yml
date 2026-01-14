@@ -20,14 +20,23 @@
 ########################################
 # 3. DB ↔ Repo SSH trust 구성
 ########################################
-- name: Configure SSH trust between DB and repo
+- name: Configure SSH trust (DB <-> Repo)
   hosts: pgsql_db:pgbackrest_repo
   gather_facts: false
   roles:
     - pg_ssh_trust
 
 ########################################
-# 4. DB 노드 pgBackRest client 설정
+# 4. Repo postgres known_hosts 준비 (중요)
+########################################
+- name: Prepare postgres known_hosts on repo
+  hosts: pgbackrest_repo
+  gather_facts: false
+  roles:
+    - pg_ssh_known_hosts
+
+########################################
+# 5. DB 노드 pgBackRest client 설정
 ########################################
 - name: Configure pgBackRest client on DB nodes
   hosts: pgsql_db
@@ -36,7 +45,7 @@
     - pgbackrest_client
 
 ########################################
-# 5. pgBackRest stanza 생성 (repo)
+# 6. pgBackRest stanza 생성 (repo, idempotent)
 ########################################
 - name: Create pgBackRest stanza on repo
   hosts: pgbackrest_repo
@@ -45,7 +54,7 @@
     - pgbackrest_stanza
 
 ########################################
-# 6. pgBackRest full backup 실행 (repo)
+# 7. pgBackRest full backup 실행 (repo)
 ########################################
 - name: Run pgBackRest full backup on repo
   hosts: pgbackrest_repo
