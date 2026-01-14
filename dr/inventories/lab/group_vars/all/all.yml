@@ -6,7 +6,7 @@ dr_fastapi_port: 8000
 
 
 pg_version: "15"
-stanza_name: "pgcluster"
+stanza_name: "pgsql-cluster"
 
 # pgBackRest 관점에서 "백업 대상 DB"
 pgbackrest_primary_host: "10.1.5.10"   # 일단 고정 (나중에 leader 자동탐지 가능)
@@ -64,3 +64,6 @@ patroni_tags:
   noloadbalance: true
   clonefrom: false
   nosync: true
+
+
+pg_ssh_trust_direction: "both"

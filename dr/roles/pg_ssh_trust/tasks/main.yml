@@ -1,0 +1,18 @@
+---
+- name: DB -> Repo trust
+  when: pg_ssh_trust_direction in ['db_to_repo', 'both']
+  block:
+    - include_tasks: db.yml
+      when: inventory_hostname in groups['pgsql_db']
+
+    - include_tasks: repo.yml
+      when: inventory_hostname in groups['pgbackrest_repo']
+
+- name: Repo -> DB trust
+  when: pg_ssh_trust_direction in ['repo_to_db', 'both']
+  block:
+    - include_tasks: repo_keygen.yml
+      when: inventory_hostname in groups['pgbackrest_repo']
+
+    - include_tasks: db_authorize_repo.yml
+      when: inventory_hostname in groups['pgsql_db']

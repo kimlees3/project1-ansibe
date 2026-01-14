@@ -1,0 +1,6 @@
+- name: Run pgBackRest full backup
+  become: true
+  shell: |
+    sudo -iu postgres pgbackrest --stanza={{ stanza_name }} --type=full backup
+  args:
+    executable: /bin/bash

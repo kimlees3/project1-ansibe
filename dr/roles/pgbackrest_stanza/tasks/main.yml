@@ -1,0 +1,9 @@
+- name: Create pgBackRest stanza (idempotent)
+  become: true
+  shell: |
+    sudo -iu postgres pgbackrest --stanza={{ stanza_name }} stanza-create
+  args:
+    executable: /bin/bash
+  register: stanza_out
+  failed_when: false
+  changed_when: "'already exists' not in stanza_out.stderr"

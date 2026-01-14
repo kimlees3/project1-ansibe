@@ -1,0 +1,54 @@
+---
+########################################
+# 1. Repo 서버 기본 준비
+########################################
+- name: Prepare repo server base
+  hosts: pgbackrest_repo
+  gather_facts: false
+  roles:
+    - repo_base
+
+########################################
+# 2. pgBackRest repo 설치 및 설정
+########################################
+- name: Install and configure pgBackRest on repo
+  hosts: pgbackrest_repo
+  gather_facts: false
+  roles:
+    - pgbackrest_repo
+
+########################################
+# 3. DB ↔ Repo SSH trust 구성
+########################################
+- name: Configure SSH trust between DB and repo
+  hosts: pgsql_db:pgbackrest_repo
+  gather_facts: false
+  roles:
+    - pg_ssh_trust
+
+########################################
+# 4. DB 노드 pgBackRest client 설정
+########################################
+- name: Configure pgBackRest client on DB nodes
+  hosts: pgsql_db
+  gather_facts: false
+  roles:
+    - pgbackrest_client
+
+########################################
+# 5. pgBackRest stanza 생성 (repo)
+########################################
+- name: Create pgBackRest stanza on repo
+  hosts: pgbackrest_repo
+  gather_facts: false
+  roles:
+    - pgbackrest_stanza
+
+########################################
+# 6. pgBackRest full backup 실행 (repo)
+########################################
+- name: Run pgBackRest full backup on repo
+  hosts: pgbackrest_repo
+  gather_facts: false
+  roles:
+    - pgbackrest_backup
