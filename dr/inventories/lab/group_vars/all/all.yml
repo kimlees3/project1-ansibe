@@ -89,3 +89,6 @@ pgbackrest_db_hosts:
 
 # Repo 서버 IP (DB → Repo SSH trust)
 pgbackrest_repo_ip: "10.1.5.81"
+
+# pgBackRest full backup 시 WAL 아카이브 대기 시간
+pgbackrest_archive_timeout: "120s"
