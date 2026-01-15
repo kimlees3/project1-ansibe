@@ -1,0 +1,7 @@
+---
+- name: DR Web + VIP Failover (keepalived)
+  hosts: dr_web
+  become: true
+  roles:
+    - dr_web_static
+    - dr_keepalived

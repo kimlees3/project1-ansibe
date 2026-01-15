@@ -73,3 +73,4 @@
 - name: Show pgBackRest version
   debug:
     msg: "{{ pgbackrest_version_out.stdout }}"
+
