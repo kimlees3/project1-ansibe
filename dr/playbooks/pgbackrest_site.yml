@@ -17,6 +17,12 @@
   roles:
     - pgbackrest_repo
 
+- name: Setup pgBackRest repository server
+  hosts: pgbackrest_repo
+  become: true
+  roles:
+    - pgbackrest_textfile
+
 ########################################
 # 3. DB ↔ Repo SSH trust 구성
 ########################################
