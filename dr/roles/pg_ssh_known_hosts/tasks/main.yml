@@ -20,7 +20,7 @@
   shell: |
     sudo -iu postgres bash <<'EOF'
     set -euo pipefail
-    repo="10.1.5.81"
+    repo="{{ pgbackrest_repo_host }}"
 
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh

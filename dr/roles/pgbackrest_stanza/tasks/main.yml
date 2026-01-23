@@ -3,6 +3,7 @@
   stat:
     path: "/var/lib/pgbackrest/backup/{{ stanza_name }}/backup.info"
   register: backup_info
+  
 
 - name: Create pgBackRest stanza (force when repo is empty)
   become: true

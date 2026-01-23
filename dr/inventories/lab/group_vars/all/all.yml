@@ -41,6 +41,7 @@ pgdg_repo_rpm: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_
 
 
 
+pgbackrest_repo_host: "10.1.5.81"
 
 
 

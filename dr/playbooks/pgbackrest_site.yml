@@ -35,11 +35,12 @@
 ########################################
 # 4. Repo postgres known_hosts 준비 (중요)
 ########################################
-- name: Prepare postgres known_hosts on repo
-  hosts: pgbackrest_repo
-  gather_facts: false
+- name: Prepare postgres known_hosts (Repo <-> DB)
+  hosts: pgbackrest_repo:pgsql_db
+  become: true
   roles:
     - pg_ssh_known_hosts
+
 
 ########################################
 # 5. DB 노드 pgBackRest client 설정
